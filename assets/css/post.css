@@ -211,3 +211,7 @@ main {
     padding: 1.5rem;
   }
 }
+
+body{
+  overflow-x: hidden !important;
+}
