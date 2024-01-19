@@ -1,3 +1,3 @@
 #!/bin/bash
 
-npx quartz build --serve --directory ../nyxsorcerer.github.io
+npx quartz build --serve --directory ./grimoire.nyxmare.world

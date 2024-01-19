@@ -20,9 +20,9 @@ This place will be filled with my stuff. So, Feel free to look around!
 # Advisory
 
 - [CVE-2023-27522](https://www.cve.org/CVERecord?id=CVE-2023-27522)
-	- Technical Details [TODO]
+	- Technical Analysis [TODO]
 - [CVE-2022-37436](https://www.cve.org/CVERecord?id=CVE-2022-37436)
-	- Technical Details [TODO]
+	- Technical Analysis [TODO]
 
 # Miscellaneous
 
