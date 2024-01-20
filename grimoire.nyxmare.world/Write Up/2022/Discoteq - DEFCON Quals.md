@@ -6,6 +6,9 @@ categories:
 tags:
   - CTF
   - Write-up
+  - client-side
+  - content-hijacking
+  - flutter
 ---
 ![](banner-defcon-2022.png)
 ## Prologue

@@ -3,6 +3,9 @@ title: "[All Web] - Hackthebox Cyber Apocalypse"
 tags:
   - CTF
   - Write-up
+  - client-side
+  - cache-deception
+  - zip-slip
 ---
 ![](banner-cyber-apocalypse%201.png)
 ## Prologue
