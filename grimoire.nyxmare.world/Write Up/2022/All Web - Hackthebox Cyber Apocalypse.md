@@ -1,10 +1,10 @@
 ---
-title: "Hackthebox Cyber Apocalypse"
+title: "[All Web] - Hackthebox Cyber Apocalypse"
 tags:
   - CTF
   - Write-up
 ---
-![](banner-cyber-apocalypse.png)
+![](banner-cyber-apocalypse%201.png)
 ## Prologue
 
 CTF Hackthebox Cyber Apocalypse is an international competition held every year by Hack The Box. This CTF Competition is using Jeopardy-style, which means every teams must find a flag in the given challenge. This competition lasts for six days.

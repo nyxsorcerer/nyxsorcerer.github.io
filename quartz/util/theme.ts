@@ -60,9 +60,5 @@ ${stylesheet.join("\n\n")}
   --highlight: ${theme.colors.darkMode.highlight};
 }
 
-article.popover-hint{
-  text-align: justify;
-  text-justify: inter-word;
-}
 `
 }
