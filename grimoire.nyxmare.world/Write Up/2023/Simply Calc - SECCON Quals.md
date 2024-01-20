@@ -19,7 +19,7 @@ SECCON CTF is International yearly competition. The finals will take into Japan.
 ## TL;DR Solution
 ### Un-intended
 
-The un-intended version of this challenge is the player by creating a iframe with very long url and cause `431` error. The default of that error page in nodejs has a CSP-less, causing player able to bypass the intended CSP. 
+The un-intended version of this challenge is. The player creating an iframe with very long url and cause `431` error. The default of that error page in nodejs has a CSP-less, causing player able to bypass the intended CSP. 
 ### Intended
 
 TODO

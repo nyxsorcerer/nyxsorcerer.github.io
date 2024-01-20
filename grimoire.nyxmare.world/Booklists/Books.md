@@ -37,3 +37,4 @@ By the way, my decision to choose book is based on this [4Chan /lit/ Wiki](http
 ## 2023 
 
 - [[The Great Gatsby by F. Scott Fitzgerald|The Great Gatsby]] by F. Scott Fitzgerald
+
