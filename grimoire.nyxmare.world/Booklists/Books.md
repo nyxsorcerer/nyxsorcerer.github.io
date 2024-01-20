@@ -17,7 +17,7 @@ During their exchange of book opinion, I was so mesmerized by it. It give me cou
 
 The book that I bought was **Hamlet** and **Macbeth** by William Shakespeare. I felt so stupid while reading these books, there are so many [Figures of Speech](https://en.wikipedia.org/wiki/Figure_of_speech) in the book and English isn’t my first language, I was overwhelmed and felt dejected. I was wondering if I am the only person who thinks like that.
 
-So, I decided to buy the book again and put it back on the shelf hoping I would read it again. I bought two books again, **The Great Gatsby** and **To Kill a Mockingbird**.
+So, I decided to buy the book again and put it back on the shelf, hoping I would read it again. Since I am still has the excitement of the story, I bought two books again, **The Great Gatsby** by F. Scott Fitzgerald and **To Kill a Mockingbird** by Harper Lee.
 
 I decided to read **The Great Gatsby** first, and totally hooked on the story. An unrequited love romance, the unexpected event in the end, and I really can relate with **Gatsby** and **Nick's** characters.
 
