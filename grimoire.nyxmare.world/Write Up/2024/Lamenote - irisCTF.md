@@ -15,7 +15,7 @@ An online CTF competition by IrisSec, this competition is the first CTF in 2024.
 
 Notes: 
 - When testing in the local, we need to disable third-party cookies first.[^1]
-- HTTPS is needed for host the exploit
+- HTTPS is needed to host the exploit
 - For the sake of debugging, I changed a little bit of the script
 ```diff
 diff --color -r lamenote 2/chal.py lamenote/chal.py
@@ -43,12 +43,12 @@ diff --color -r lamenote 2/chal.py lamenote/chal.py
 # Write Up
 ## TL;DR Solution
 
-The player need to chaining CSRF by creating note with all possible characters. After that, by making use of the search feature in app, if the search result is multiple it won't render the image.
+The player needs to change CSRF by creating a note with all possible characters. After that, by making use of the search feature in the app, if the search result is multiple it won't render the image.
 ## Detailed Explanation
 
 ### Reading the Code
 
-We were given two sources file, the admin bot and the application.
+We were given two source files, the admin bot and the application.
 ![[Screenshot 2024-01-21 at 13.47.32.png]]
 ![[Screenshot 2024-01-21 at 13.48.02.png]]
 
@@ -95,7 +95,7 @@ async function load_url(socket, data) {
 // 8< -- Snip -- >8
 ```
 
-In the front-end side, the application just iframe-ing the endpoint `/home` with `sandbox`
+On the front-end side, the application just iframe-ing the endpoint `/home` with `sandbox`
 ```html
 <!-- ./lamenote/index.html#L16 -->
 
@@ -104,7 +104,7 @@ In the front-end side, the application just iframe-ing the endpoint `/home` with
 
 
 Understanding the server-side code, we can see interesting few things
-- There's a check request, where all the source request need to be inside the iframe
+- There's a check request, where all the source requests need to be inside the iframe
 ```python
 # ./lamenote/chal.py#L14-L20
 def check_request(f):
@@ -116,7 +116,7 @@ def check_request(f):
     return inner
 ```
 
-- The CSP is very strict, We were able to control the `g.image_url`, but due to strict regex, we won't have CSP Injection. Also, its vulnerable to clickjacking.
+- The CSP is very strict, We were able to control the `g.image_url`, but due to strict regex, we won't have CSP Injection. Also, it's vulnerable to clickjacking.
 ```python
 # ./lamenote/chal.py#L8
 host = re.compile("^[a-z0-9\.:]+$")
@@ -169,7 +169,7 @@ def render_note(note):
 r.set_cookie('user', user, secure=True, httponly=True, samesite='None')
 ```
 
-- The most interesting part is on searching note. So, If we search a note where it only resulting **One note**. Then, It will render the note. But, if the **note is multiple**, it only render the title.
+- The most interesting part is on search note. So, If we search for a note where it only results in **one note**. Then, It will render the note. But, if the **note is multiple**, it only renders the title.
 ```python
 # ./lamenote/chal.py#L86-L105
 @app.route("/search")
@@ -198,8 +198,8 @@ def search():
 
 ### Exploitation
 
-To summarize our finding before, We found few things:
-- Request must be through iframe;
+To summarize our findings before, We found a few things:
+- The request must be through iframe;
 - CSRF when creating notes;
 - If the searching note is only one, render the note.
 
