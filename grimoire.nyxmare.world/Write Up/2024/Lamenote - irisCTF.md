@@ -16,7 +16,7 @@ An online CTF competition by IrisSec, this competition is the first CTF in 2024.
 Notes: 
 - When testing in the local, we need to disable third-party cookies first.[^1]
 - HTTPS is needed for host the exploit
-- For the sake of debugging, I changed a little bit of script
+- For the sake of debugging, I changed a little bit of the script
 ```diff
 diff --color -r lamenote 2/chal.py lamenote/chal.py
 8c8
