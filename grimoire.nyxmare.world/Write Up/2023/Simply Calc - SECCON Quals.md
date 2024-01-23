@@ -14,7 +14,7 @@ categories:
 # Prologue
 SECCON CTF is International yearly competition. The finals will take into Japan. 
 
-![[2022-seccon-quals-simple-calc.tar.gz]]
+![[2023-seccon-quals-simple-calc.tar.gz]]
 # Write Up
 ## TL;DR Solution
 ### Un-intended
