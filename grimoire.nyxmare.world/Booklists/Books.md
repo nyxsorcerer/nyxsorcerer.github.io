@@ -13,7 +13,7 @@ Long-short synopsis, Cordelia Grey (the Main Character) working at a publisher c
 
 During her visit to the author's house to receive the manuscript of sequel, She met with the _proxy_ of the author, and also, she was also given an antique book chest. The book chest is actually a time machine and connected to the book chest in the past. After discovering it, she exchanges words, books, and a life story with the owner of the book chest in the past.
 
-During their exchange of book opinion, I was so mesmerized by it. It give me courage to try reading book again. So, going to the local bookstore, and I am really curious about how good is the book that they’re talks. Unfortunately, they didn’t sell it and I just picked a book according to their synopsis.
+During their exchange of book opinion, I was so mesmerized by it. It give me a reason to try reading book again. So, going to the local bookstore, and I am really curious about how good is the book that they’re talks. Unfortunately, they didn’t sell it and I just random pick a book and choose it according to their synopsis.
 
 The book that I bought was **Hamlet** and **Macbeth** by William Shakespeare. I felt so stupid while reading these books, there are so many [Figures of Speech](https://en.wikipedia.org/wiki/Figure_of_speech) in the book and English isn’t my first language, I was overwhelmed and felt dejected. I was wondering if I am the only person who thinks like that.
 
