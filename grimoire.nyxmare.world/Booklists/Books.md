@@ -23,6 +23,8 @@ I decided to read **The Great Gatsby** first, and totally hooked on the story.
 
 By the way, my decision to choose book is based on [4Chan /lit/ Wiki](https://4chanlit.fandom.com/wiki/Charts).
 # Future
+
+## Fiction
 - **Pride and Prejudice** by Jane Austen
 - **Moby Dick** by Herman Melville
 - **Crime and Punishment** by Fyodor Dostoevsky
@@ -36,4 +38,5 @@ By the way, my decision to choose book is based on [4Chan /lit/ Wiki](https://4
 
 ## 2023 
 
+### Fiction
 - [[The Great Gatsby by F. Scott Fitzgerald|The Great Gatsby]] by F. Scott Fitzgerald
