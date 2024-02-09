@@ -387,7 +387,6 @@ print(''.join(result))
 print(''.join(result)[:16], ''.join(result)[16:])
 ```
 
-![[Screenshot 2024-02-09 at 10.11.34.png]]
 ![[Screenshot 2024-02-09 at 10.06.42.png]
 ![[Screenshot 2024-02-09 at 10.12.26.png]]
 
