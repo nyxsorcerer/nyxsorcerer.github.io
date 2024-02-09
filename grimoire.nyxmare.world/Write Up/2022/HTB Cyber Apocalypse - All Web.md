@@ -1,11 +1,14 @@
 ---
-title: "[All Web] - Hackthebox Cyber Apocalypse"
+title: HTB Cyber Apocalypse - [All Web]
 tags:
   - CTF
   - Write-up
   - client-side
   - cache-deception
   - zip-slip
+  - hackthebox
+  - cyber-apocalypse
+  - web-exploitation
 ---
 ![](banner-cyber-apocalypse%201.png)
 ## Prologue

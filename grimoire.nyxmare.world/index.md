@@ -4,9 +4,9 @@ title: The Libraries
 
 Hey!
 
-Welcome to **The Libraries**. 
+Welcome to **My Libraries**. 
 
-This place will be filled with my stuff. So, Feel free to look around!
+This place will be filled with my notes. So, Feel free to look around!
 # Blog & Research
 
 - [TODO]

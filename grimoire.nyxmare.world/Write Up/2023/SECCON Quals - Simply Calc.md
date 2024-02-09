@@ -1,11 +1,13 @@
 ---
-title: "[Simply Calc] - SECCON Quals"
+title: SECCON Quals - [Simply Calc]
 tags:
   - CTF
   - Write-up
   - csp-bypass
   - client-side
   - service-worker
+  - seccon
+  - web-exploitation
 categories:
   - CTF
   - Write Up

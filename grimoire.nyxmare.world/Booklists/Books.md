@@ -28,6 +28,8 @@ By the way, my decision to choose book is based on [4Chan /lit/ Wiki](https://4
 - **Pride and Prejudice** by Jane Austen
 - **Moby Dick** by Herman Melville
 - **Crime and Punishment** by Fyodor Dostoevsky
+- **Notes From Underground** by Fyodor Dostoevsky
+- **The Double** by Fyodor Dostoevsky
 - **Hamlet** by William Shakespeare
 - **Macbeth** by William Shakespeare
 

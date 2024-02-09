@@ -1,5 +1,5 @@
 ---
-title: "[Discoteq] - DEFCON Quals"
+title: DEFCON Quals - [Discoteq]
 categories:
   - CTF
   - Write Up
@@ -9,6 +9,8 @@ tags:
   - client-side
   - content-hijacking
   - flutter
+  - defcon
+  - web-exploitation
 ---
 ![](banner-defcon-2022.png)
 ## Prologue

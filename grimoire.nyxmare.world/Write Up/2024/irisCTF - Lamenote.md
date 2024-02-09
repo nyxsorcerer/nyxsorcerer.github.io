@@ -1,9 +1,11 @@
 ---
-title: "[Lamenote] - irisCTF"
+title: irisCTF - [Lamenote]
 tags:
   - CTF
   - Write-up
   - xs-leaks
+  - irisctf
+  - web-exploitation
 categories:
   - CTF
   - Write Up
@@ -43,7 +45,7 @@ diff --color -r lamenote 2/chal.py lamenote/chal.py
 # Write Up
 ## TL;DR Solution
 
-The player needs to change CSRF by creating a note with all possible characters. After that, by making use of the search feature in the app, if the search result is multiple it won't render the image.
+The player needs to create note by make use of CSRF and creating a note with all possible characters. After that, by making use of the search feature in the app, if the search result is multiple it won't render the image.
 ## Detailed Explanation
 
 ### Reading the Code
