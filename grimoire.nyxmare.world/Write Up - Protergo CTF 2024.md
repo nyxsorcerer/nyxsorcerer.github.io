@@ -1,3 +1,7 @@
+---
+draft: "true"
+---
+
 
 A website version is at [https://grimoire.nyxmare.world/tags/protergo](grimoire.nyxmare.world/tags/protergo)
 
