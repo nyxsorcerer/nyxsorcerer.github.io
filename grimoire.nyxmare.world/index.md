@@ -16,6 +16,7 @@ This place will be filled with my notes. So, Feel free to look around!
 - [[Write Up/2024/]]
 - [[Write Up/2023/]]
 - [[Write Up/2022/]]
+- [2021](https://github.com/nyxsorcerer/writeups-ctf)
 
 # Advisory
 
