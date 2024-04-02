@@ -3,7 +3,7 @@ title: Books
 ---
 
 > [!info] 
-> This page is totally inspired from this [blog](https://jzhao.xyz/books).
+> This categories is just filled with my nonsense-thought on the books.
 
 Enjoying fiction stories has been my hobby since childhood. From watching anime, reading light novels, web novels, and JP/KR/CN comics. I even read all the short stories in all my schoolbooks from elementary until high school in my free time.
 
@@ -25,16 +25,21 @@ By the way, my decision to choose book is based on [4Chan /lit/ Wiki](https://4
 # Future
 
 ## Fiction
+- **No Longer Human** by Osamu Dazai
+- **Thou Shalt Not Die** by Yosano Akiko
+- - by Edogawa Ranpo
+- - by Miyazawa Kenzi
+- - by Kumikida Doppo
 - **Pride and Prejudice** by Jane Austen
 - **Moby Dick** by Herman Melville
-- **Crime and Punishment** by Fyodor Dostoevsky
-- **Notes From Underground** by Fyodor Dostoevsky
 - **The Double** by Fyodor Dostoevsky
 - **Hamlet** by William Shakespeare
 - **Macbeth** by William Shakespeare
 
 # Current Reading
-- **To Kill a Mockingbird** by Harper Lee
+- [[To Kill a Mockingbird by Harper Lee|To Kill a Mockingbird]] by Harper Lee
+- **Notes From Underground** by Fyodor Dostoevsky
+- **Crime and Punishment** by Fyodor Dostoevsky
 
 # Past
 

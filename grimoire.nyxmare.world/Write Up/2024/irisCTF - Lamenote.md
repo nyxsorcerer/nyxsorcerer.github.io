@@ -48,7 +48,7 @@ diff --color -r lamenote 2/chal.py lamenote/chal.py
 The player needs to create note by make use of CSRF and creating a note with all possible characters. After that, by making use of the search feature in the app, if the search result is multiple it won't render the image.
 ## Detailed Explanation
 
-### Reading the Code
+### Initial Analysis
 
 We were given two source files, the admin bot and the application.
 ![[Screenshot 2024-01-21 at 13.47.32.png]]
