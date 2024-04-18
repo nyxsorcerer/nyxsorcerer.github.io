@@ -6,7 +6,10 @@ const config: QuartzConfig = {
     pageTitle: "Grimoire Of Nyxmare 🧙‍♂️",
     enableSPA: true,
     enablePopovers: true,
-    analytics: null,
+    analytics: {
+      provider: "google",
+      tagId: "G-XXM2QWTQP6"
+    },
     baseUrl: "grimoire.nyxmare.world",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "created",

@@ -21,7 +21,7 @@ So, I decided to buy the book again and put it back on the shelf, hoping I would
 
 I decided to read **The Great Gatsby** first, and totally hooked on the story. An unrequited love romance, the unexpected event in the end, and I really can relate with **Gatsby** and **Nick's** characters.
 
-By the way, my decision to choose book is based on [4Chan /lit/ Wiki](https://4chanlit.fandom.com/wiki/Charts).
+By the way, my decision to choose book is usually based on [4Chan /lit/ Wiki](https://4chanlit.fandom.com/wiki/Charts).
 # Future
 
 ## Fiction

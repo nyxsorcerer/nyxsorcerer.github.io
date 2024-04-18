@@ -20,6 +20,8 @@ An online CTF competition by ECSC team. This competition held on March 18th unti
 # Write Up
 ## TL;DR Solution
 
+A vulnerability exists in package `"perfect-express-sanitizer": "^1.0.13"`. This package is checking 
+
 
 ## Detailed Explanation
 

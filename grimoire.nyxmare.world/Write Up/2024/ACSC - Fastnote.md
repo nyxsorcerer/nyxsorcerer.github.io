@@ -1,5 +1,5 @@
 ---
-title: ACSC - [DB Explorer]
+title: ACSC - [Fastnote]
 tags:
   - CTF
   - Write-up
@@ -14,11 +14,7 @@ categories:
   - Write Up
 draft: "true"
 ---
-![[Screenshot 2024-04-02 at 16.44.05.png]]
-# Prologue
-An online CTF competition by ACSC, this competition is qualification for competing in ICC for ASIA category.
 
-![[dist-db-exp-821ecd94f8f5b8e64d1233744b005d5eadf79e36.tar.gz]]
 # Write Up
 ## TL;DR Solution
 
