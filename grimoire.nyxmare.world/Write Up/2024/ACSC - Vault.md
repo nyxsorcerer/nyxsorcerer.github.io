@@ -24,13 +24,16 @@ Exploiting side-channel attack to guess the PIN, if the PIN is correct it will d
 ### Initial Analysis
 
 We were given a binary and a configuration server.
-![[Screenshot 2024-04-01 at 22.04.16.png]]
+
+If we connecting into server, we can see that we only have a permission into executing the binary
+![[Screenshot 2024-04-22 at 18.18.38.png]]
 
 Looking at the `main` function, we can see that it will check the length of input, and then for every input characters will be xor-ed with the key. If it wrong, it will delayed for 100000ms.
+![[Screenshot 2024-04-01 at 22.04.16.png]]
 
 We can check all the possibility number 0-9. And then pick few samples and calculate the average. After that, check which numbers that get the longest time to execute.
 
-Fortunately, the configuration already has a [time](https://man7.org/linux/man-pages/man1/time.1.html) command. We can make use of this command to get the time needed for execute without problem if we had a bad connection.
+Fortunately, the configuration already has a [time](https://man7.org/linux/man-pages/man1/time.1.html) command. We can make use of this command to get the time needed for execute without problem, even if we had a bad connection.
 ### Exploitation
 
 ```python

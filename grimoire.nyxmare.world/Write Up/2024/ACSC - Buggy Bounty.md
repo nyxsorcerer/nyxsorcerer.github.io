@@ -81,7 +81,7 @@ router.get("/triage", (req, res) => {
 These files were loaded in the `/triage` route, which protected by admin (or bot) only [1].
 
 
-To proof the existence XSS, i need to little bit modify the `isAdmin()` function. 
+To proof the existence of XSS, i need to little bit modify the `isAdmin()` function. 
 
 ```
 __proto__[src]=data:,alert(1)//
