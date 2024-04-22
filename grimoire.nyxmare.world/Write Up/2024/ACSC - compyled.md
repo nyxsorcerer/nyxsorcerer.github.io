@@ -9,6 +9,7 @@ tags:
 categories:
   - CTF
   - Write Up
+draft: "true"
 ---
 
 # Prologue

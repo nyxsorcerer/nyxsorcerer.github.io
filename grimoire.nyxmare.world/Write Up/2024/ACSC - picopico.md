@@ -9,6 +9,7 @@ tags:
 categories:
   - CTF
   - Write Up
+draft: "true"
 ---
 ![[Screenshot 2024-04-22 at 21.26.07.png]]
 # Prologue
