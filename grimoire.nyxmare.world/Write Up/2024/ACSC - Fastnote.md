@@ -5,10 +5,10 @@ tags:
   - Write-up
   - web-exploitation
   - acsc
-  - server-side
-  - php
-  - include_once-bypass
-  - lfi
+  - client-side
+  - memory-corruption
+  - use-after-free
+  - wasm
 categories:
   - CTF
   - Write Up
@@ -18,22 +18,12 @@ draft: "true"
 # Write Up
 ## TL;DR Solution
 
-By default, player has normal user role. This role able to include any file, but it must has `.php` suffix and regex restriction. 
 
-- Unintended
-	- Nginx Body Buffer
-	- Access Log
-- Intended
-	- Temporary Table
 
 ## Detailed Explanation
 
 ### Initial Analysis
 
-#### Regex Bypass
-#### Privilege Escalation
-
-#### MySQL Temporary Table
 ### Exploitation
 
 
